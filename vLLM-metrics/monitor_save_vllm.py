@@ -470,7 +470,7 @@ def main():
 
     parser = argparse.ArgumentParser(
         description=(
-            "Collect one-minute vLLM serving metrics."
+            "Collect vLLM serving metrics over a configurable time window."
         )
     )
 
@@ -521,6 +521,11 @@ def main():
 
     args = parser.parse_args()
 
+    if args.duration <= 0:
+        parser.error("--duration must be greater than 0")
+    if args.interval <= 0:
+        parser.error("--interval must be greater than 0")
+
     output_dir = Path(args.output_dir)
 
     output_dir.mkdir(
@@ -534,7 +539,7 @@ def main():
 
     print()
     print("=" * 70)
-    print("vLLM 1-Minute Metrics Collector")
+    print("vLLM Metrics Collector")
     print("=" * 70)
 
     print(f"Metrics URL : {args.url}")
@@ -1189,7 +1194,7 @@ def main():
 
     print()
     print("=" * 70)
-    print("60-SECOND RESULT")
+    print(f"{actual_duration:.1f}-SECOND RESULT")
     print("=" * 70)
 
     print()
